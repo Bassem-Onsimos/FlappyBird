@@ -1,7 +1,7 @@
 
 package Game;
 
-public class Initializer {
+public class FlappyBird {
     
     public static void main(String args[]) {
         Game game = new Game(1000, 600, 1.0f);

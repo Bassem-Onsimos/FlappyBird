@@ -3,7 +3,6 @@ package Game;
 import GameEngine.Graphics.BufferedImageLoader;
 import Model.Bar;
 import Model.Bird;
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
@@ -25,10 +24,6 @@ public class Controller {
     private float levelPosition = 0;
     private float speed = 200f;
     //
-    private int attempts = 0;
-    private int score = 0;
-    private int highScore = 0;
-    //
     private BufferedImage sky;
     private float skyPosition = 0;
     private float secondSkyPosition = 0;
@@ -47,7 +42,6 @@ public class Controller {
         try {
             sky = loader.loadImage("/img/background.png");
         } catch (IOException e) {
-            e.printStackTrace();
         }
         
     }
@@ -65,8 +59,8 @@ public class Controller {
             barList.add(new Bar(game, 0));
         }
 
-        attempts++;
-        score = 0;
+        game.getAttempts().setValue(game.getAttempts().getValue() + 1);
+        game.getScore().setValue(0);
 
     }
 
@@ -96,10 +90,10 @@ public class Controller {
                     barList.remove(0);
                     barList.add(new Bar(game));
                     
-                    score += 10;
+                    game.getScore().setValue(game.getScore().getValue() + 10);
                     
-                    if(score > highScore)
-                        highScore = score;
+                    if(game.getScore().getValue() > game.getHighScore().getValue())
+                        game.getHighScore().setValue(game.getScore().getValue());
 
                 }
                 
@@ -140,12 +134,6 @@ public class Controller {
         
         bird.render(g);
         
-        String info = String.format("Attempts: %d        Score: %d        High Score: %d", attempts, score, highScore);       
-        
-        g.setColor(Color.BLACK);
-        g.drawString(info, 6, 16);
-        g.setColor(Color.WHITE);
-        g.drawString(info, 5, 15);
     }
 
     public float getSectionWidth() {
